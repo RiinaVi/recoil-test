@@ -2,7 +2,7 @@ import React from 'react';
 import {
   atom,
   selector,
-  useRecoilValueLoadable,
+  useRecoilValue,
 } from 'recoil';
 
 const getData = async () => {
@@ -23,25 +23,13 @@ const catFactsState = atom<[]>({
 
 
 function App() {
-  const data = useRecoilValueLoadable(catFactsState);
+  const data = useRecoilValue(catFactsState);
 
-  if (data.state === "hasError") {
-    return <div> There is some problem! </div>;
-  }
-
-  if (data.state === "loading") {
-    return <div>Loading data...</div>;
-  }
-
-  if (data.state === "hasValue") {
-    return (
-      <div>{data.contents.map((el: { fact: string }, i: number) => (
-        <p key={i}>{el.fact}</p>
-      ))}</div>
-    );
-  }
-
-  return <>No data</>
+  return (
+    <div>{data.map((el: { fact: string }, i: number) => (
+      <p key={i}>{el.fact}</p>
+    ))}</div>
+  );
 }
 
 export default App;
